@@ -3,65 +3,65 @@
     {
       "id": "dl_001",
       "pregunta": "¿Cuál es mi horario de trabajo en JUNJI?",
-      "palabras_clave": ["horario", "horas", "trabajo", "jornada", "entrada", "salida"],
+      "palabras_clave": ["horario", "jornada", "horario de trabajo", "hora de entrada", "hora de salida"],
       "respuesta": "El horario estándar en JUNJI es de 08:00 a 16:30 horas, de lunes a viernes. Los educadores de párvulos tienen horarios extendidos según el funcionamiento de los jardines infantiles. Consulta con tu dirección regional para horarios específicos."
     },
     {
       "id": "dl_002",
       "pregunta": "¿Tengo derecho a descanso durante la jornada?",
-      "palabras_clave": ["descanso", "break", "almuerzo", "pausa", "colación"],
+      "palabras_clave": ["descanso", "almuerzo", "pausa", "colacion", "tiempo de colacion"],
       "respuesta": "Sí, tienes derecho a un descanso de 30 minutos para colación dentro de la jornada laboral. Este tiempo no es remunerado. Algunos jardines permiten descansos adicionales por acuerdo con el director."
     },
     {
       "id": "dl_003",
       "pregunta": "¿Cuántos días de feriado tengo al año?",
-      "palabras_clave": ["feriado", "vacaciones", "días", "descanso anual", "permiso"],
+      "palabras_clave": ["feriado", "vacaciones", "descanso anual", "dias de feriado", "feriado legal"],
       "respuesta": "Como funcionario público en JUNJI tienes derecho a 15 días hábiles de feriado al año, además de los feriados legales en Chile. Este derecho se rige por el Código del Trabajo y el Estatuto Administrativo."
     },
     {
       "id": "dl_004",
       "pregunta": "¿Cuál es el monto de mi sueldo base?",
-      "palabras_clave": ["sueldo", "salario", "pago", "remuneración", "monto"],
-      "respuesta": "Tu sueldo base depende de tu cargo, grado y región. Consulta la Remuneraciones Imponibles (RPI) publicada por JUNJI o contacta a tu dirección regional. Los sueldos se pagan el último día hábil de cada mes."
+      "palabras_clave": ["sueldo", "salario", "remuneracion", "sueldo base", "cuanto gano"],
+      "respuesta": "Tu sueldo base depende de tu cargo, grado y región. Consulta las Remuneraciones publicadas por JUNJI o contacta a tu dirección regional. Los sueldos se pagan el último día hábil de cada mes."
     }
   ],
   "tramites_junji": [
     {
       "id": "tj_001",
       "pregunta": "¿Cómo solicito un cambio de jardín o región?",
-      "palabras_clave": ["cambio", "traslado", "jardín", "región", "solicitud"],
-      "respuesta": "Debes solicitar formalmente a tu dirección regional mediante oficio. Requiere aprobación de ambas regiones involucradas. El proceso toma 15-30 días hábiles. Presentarte en Recursos Humanos con tu dirección regional."
+      "palabras_clave": ["traslado", "cambio de jardin", "cambio de region", "trasladarme", "cambiarme de jardin"],
+      "respuesta": "Debes solicitar formalmente a tu dirección regional mediante oficio. Requiere aprobación de ambas regiones involucradas. El proceso toma 15-30 días hábiles. Preséntate en Recursos Humanos con tu dirección regional."
     },
     {
       "id": "tj_002",
       "pregunta": "¿Cómo obtengo una certificación de años de servicio?",
-      "palabras_clave": ["certificado", "años", "servicio", "antigüedad", "constancia"],
+      "palabras_clave": ["certificado", "anos de servicio", "antiguedad", "constancia", "certificado de servicio"],
       "respuesta": "Solicita un certificado en la oficina de Recursos Humanos de tu dirección regional. Es gratuito y se emite en 3-5 días hábiles. Lo necesitas para trámites de jubilación, créditos o referencias laborales."
     },
     {
       "id": "tj_003",
-      "pregunta": "¿Cómo cambian mi designación o cargo?",
-      "palabras_clave": ["designación", "cargo", "promedio", "cambio", "ascenso"],
-      "respuesta": "Los cambios de designación se hacen por concurso interno o restructuración. Debes estar atenta a los llamados de tu dirección regional y cumplir requisitos del Estatuto Administrativo."
+      "pregunta": "¿Cómo cambia mi designación o cargo?",
+      "palabras_clave": ["designacion", "cambio de cargo", "ascenso", "cambio de designacion", "concurso interno"],
+      "respuesta": "Los cambios de designación se hacen por concurso interno o reestructuración. Debes estar atenta a los llamados de tu dirección regional y cumplir requisitos del Estatuto Administrativo."
     }
   ],
   "beneficios_ajunji": [
     {
       "id": "ba_001",
       "pregunta": "¿Qué beneficios otorga ser miembro de AJUNJI?",
-      "palabras_clave": ["beneficios", "afiliado", "AJUNJI", "ventajas", "descuentos"],
+      "palabras_clave": ["beneficios", "ventajas de afiliarse", "que beneficios", "descuentos afiliado"],
       "respuesta": "Como afiliado a AJUNJI accedes a: asesoría legal gratuita, representación en conflictos laborales, descuentos en servicios, capacitación, y cobertura ante sumarios. Además participas en las decisiones de la organización."
     },
     {
       "id": "ba_002",
       "pregunta": "¿Cuánto es la cuota de afiliación a AJUNJI?",
-      "palabras_clave": ["cuota", "afiliación", "aporte", "pago", "mensual"],
-      "respuesta": "La cuota mensual depende de tu región y remuneración. Promedia entre $8,000 a $15,000 pesos mensuales. Se descuenta automáticamente de tu sueldo. Consulta con tu delegado regional para el monto exacto."
+      "palabras_clave": ["cuota", "aporte", "cuanto cuesta afiliarse", "cuota mensual", "valor afiliacion"],
+      "respuesta": "La cuota mensual depende de tu región y remuneración. Promedia entre $8.000 a $15.000 pesos mensuales. Se descuenta automáticamente de tu sueldo. Consulta con tu delegado regional para el monto exacto."
     },
     {
       "id": "ba_003",
       "pregunta": "¿Cómo obtengo asesoría legal a través de AJUNJI?",
-      "palabras_clave": ["asesoría", "legal", "abogado", "derecho", "consulta"],
+      "palabras_clave": ["asesoria legal", "abogado", "consulta legal", "ayuda legal", "defensa legal"],
       "respuesta": "Contacta a tu delegado regional o la línea nacional de AJUNJI. Los abogados de la organización atienden consultas sobre contratos, derechos laborales, y conflictos con JUNJI sin costo adicional para afiliados."
     }
   ],
@@ -69,25 +69,25 @@
     {
       "id": "sum_001",
       "pregunta": "¿Qué es un sumario administrativo?",
-      "palabras_clave": ["sumario", "administrativo", "investigación", "proceso", "disciplinario"],
-      "respuesta": "Un sumario es un proceso formal de investigación ante presuntas faltas administrativas. Tiene etapas de notificación, investigación, defensa y resolución. AJUNJI te asistiré legalmente en cada fase."
+      "palabras_clave": ["que es un sumario", "sumario administrativo", "que es sumario", "investigacion sumaria"],
+      "respuesta": "Un sumario es un proceso formal de investigación ante presuntas faltas administrativas. Tiene etapas de notificación, investigación, defensa y resolución. AJUNJI te asistirá legalmente en cada fase."
     },
     {
       "id": "sum_002",
       "pregunta": "¿Qué derechos tengo durante un sumario?",
-      "palabras_clave": ["derechos", "defensa", "sumario", "presunción", "inocencia"],
+      "palabras_clave": ["derechos en sumario", "defensa en sumario", "presuncion de inocencia", "mis derechos sumario"],
       "respuesta": "Tienes derecho a: presunción de inocencia, defensa técnica (abogado), acceso al expediente, contrastar pruebas, e impugnar. AJUNJI te proporciona asesoría legal gratuita. No puedes ser sancionado antes de resolver."
     },
     {
       "id": "sum_003",
       "pregunta": "¿Cuánto tiempo toma un sumario?",
-      "palabras_clave": ["tiempo", "duración", "sumario", "plazo", "investigación"],
+      "palabras_clave": ["cuanto dura un sumario", "duracion sumario", "plazo sumario", "cuanto demora sumario"],
       "respuesta": "Un sumario normalmente dura 30-60 días hábiles desde la notificación. Puede extenderse si hay apelación. La ley exige decisión en plazo razonable. AJUNJI monitorea que se respeten los tiempos legales."
     },
     {
       "id": "sum_004",
       "pregunta": "¿Quién investiga en un sumario?",
-      "palabras_clave": ["fiscal", "investigador", "sumario", "instructor", "autoridad"],
+      "palabras_clave": ["quien investiga", "fiscal instructor", "fiscal del sumario", "investigador sumario"],
       "respuesta": "Un fiscal instructor (funcionario de JUNJI) es designado para conducir la investigación. Debe ser imparcial. Si no lo es, puedes pedir su impedimento. AJUNJI te asesora en este procedimiento."
     }
   ],
@@ -95,25 +95,25 @@
     {
       "id": "lp_001",
       "pregunta": "¿Cómo solicito una licencia médica?",
-      "palabras_clave": ["licencia médica", "enfermedad", "doctor", "isapre", "fonasa"],
-      "respuesta": "Debes presentar tu diagnóstico médico a la dirección del jardín el primer día de enfermedad. Luego se registra en el sistema de JUNJI. La licencia es pagada al 100% por JUNJI en los primeros 3 meses de cada año calendario, según normativa."
+      "palabras_clave": ["licencia medica", "enfermedad", "como solicito licencia", "presentar licencia"],
+      "respuesta": "Debes presentar tu licencia médica a la dirección del jardín el primer día de enfermedad. Luego se registra en el sistema de JUNJI. La licencia es pagada según la normativa vigente. Coordina con Recursos Humanos para el detalle de tu caso."
     },
     {
       "id": "lp_002",
       "pregunta": "¿Tengo derecho a permiso por cita médica?",
-      "palabras_clave": ["cita médica", "doctor", "hora médica", "permiso", "trabajo"],
+      "palabras_clave": ["cita medica", "hora medica", "permiso medico", "ir al doctor", "atencion de salud"],
       "respuesta": "Sí, tienes derecho a permiso dentro de la jornada para atenciones de salud. Debe ser justificado con comprobante médico. Generalmente es 1-2 horas según complejidad. Coordina con tu director."
     },
     {
       "id": "lp_003",
       "pregunta": "¿Puedo solicitar permiso sin sueldo?",
-      "palabras_clave": ["permiso", "sin sueldo", "licencia", "ausencia", "no remunerado"],
+      "palabras_clave": ["permiso sin sueldo", "sin goce de sueldo", "no remunerado", "licencia sin sueldo"],
       "respuesta": "Puedes solicitar permiso sin sueldo por motivos personales graves. Requiere solicitud escrita a tu dirección regional con justificación. El plazo máximo es generalmente 30 días. Debe ser aprobado."
     },
     {
       "id": "lp_004",
       "pregunta": "¿Tengo derecho a post-natal?",
-      "palabras_clave": ["maternidad", "post-natal", "embarazo", "bebé", "parto"],
+      "palabras_clave": ["post natal", "postnatal", "maternidad", "embarazo", "parto", "lactancia"],
       "respuesta": "Sí, tienes 6 semanas remuneradas de descanso post-natal (12 si hay complicaciones). También tienes derecho a 2 horas diarias para lactancia hasta 2 años. Consulta con Recursos Humanos para formalizar."
     }
   ],
@@ -121,26 +121,26 @@
     {
       "id": "sin_001",
       "pregunta": "¿Cómo me afilio a AJUNJI?",
-      "palabras_clave": ["afiliación", "afiliarse", "AJUNJI", "sindicato", "registro"],
+      "palabras_clave": ["afiliarme", "afiliarse", "como me afilio", "afiliacion", "unirme a ajunji"],
       "respuesta": "Debes completar el formulario de afiliación en tu dirección regional o solicitarlo a tu delegado. Incluye: cédula, datos personales, cargo y sueldo. Se procesa en 5-10 días hábiles. La afiliación es voluntaria."
     },
     {
       "id": "sin_002",
       "pregunta": "¿Puedo desafiliarme de AJUNJI?",
-      "palabras_clave": ["desafiliar", "salirse", "renuncia", "AJUNJI"],
+      "palabras_clave": ["desafiliar", "desafiliarme", "salir de ajunji", "renunciar a ajunji"],
       "respuesta": "Sí, es derecho tuyo. Presenta una solicitud escrita al tesorero regional con cédula. La desafiliación es inmediata pero pierdes todos los beneficios y protecciones que otorga la organización."
     },
     {
       "id": "sin_003",
       "pregunta": "¿Cómo puedo ser delegado regional?",
-      "palabras_clave": ["delegado", "junta directiva", "cargo", "elecciones", "candidato"],
+      "palabras_clave": ["delegado", "junta directiva", "elecciones", "candidato", "ser delegado"],
       "respuesta": "Debes ser afiliado con mínimo 2 años de antigüedad. Las elecciones se hacen cada 2 años. Puedes candidatearte o votar por los candidatos. Tu dirección regional te da fechas de elecciones."
     },
     {
       "id": "sin_004",
       "pregunta": "¿Qué decide la asamblea regional?",
-      "palabras_clave": ["asamblea", "decisión", "voto", "reunión", "acuerdo"],
-      "respuesta": "La asamblea es soberana en AJUNJI. Decide sobre: cuotas, acciones de lucha, elección de directives, políticas internas. Todos los afiliados pueden asistir y votar. Las convocatorias se hacen con 7 días de anticipación."
+      "palabras_clave": ["asamblea", "votar en asamblea", "decisiones de ajunji", "que decide la asamblea"],
+      "respuesta": "La asamblea es soberana en AJUNJI. Decide sobre: cuotas, acciones de lucha, elección de directivos, políticas internas. Todos los afiliados pueden asistir y votar. Las convocatorias se hacen con 7 días de anticipación."
     }
   ]
 }

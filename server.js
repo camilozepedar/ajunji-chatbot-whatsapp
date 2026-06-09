@@ -3,11 +3,11 @@ const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
- 
+
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
- 
+
 // Cargar FAQ en memoria
 const faqPath = path.join(__dirname, 'faq.json');
 let faqData = {};
@@ -18,33 +18,53 @@ try {
 } catch (err) {
   console.error('Error al cargar FAQ:', err);
 }
- 
+
 // ============================================================================
 // FUNCIÓN: Buscar respuesta en FAQ
 // ============================================================================
+function normalizar(texto) {
+  return texto
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 function searchFAQ(userMessage) {
-  const messageLower = userMessage.toLowerCase();
+  const mensajeNorm = normalizar(userMessage);
   const allFAQs = Object.values(faqData).flat();
- 
-  // Buscar match por palabras clave (simple pero efectivo)
+
+  let mejorFAQ = null;
+  let mejorScore = 0;
+
+  // Contar coincidencias de palabras clave por cada FAQ
   for (const faq of allFAQs) {
-    const keywordsMatch = faq.palabras_clave.some(keyword =>
-      messageLower.includes(keyword.toLowerCase())
-    );
- 
-    if (keywordsMatch) {
-      return {
-        found: true,
-        respuesta: faq.respuesta,
-        id: faq.id,
-        categoria: faq.pregunta
-      };
+    let score = 0;
+    for (const keyword of faq.palabras_clave) {
+      if (mensajeNorm.includes(normalizar(keyword))) {
+        score++;
+      }
+    }
+    // Quedarse con la FAQ de mayor score
+    if (score > mejorScore) {
+      mejorScore = score;
+      mejorFAQ = faq;
     }
   }
- 
+
+  // Solo se considera match si hay al menos una coincidencia
+  if (mejorFAQ && mejorScore >= 1) {
+    return {
+      found: true,
+      respuesta: mejorFAQ.respuesta,
+      id: mejorFAQ.id,
+      categoria: mejorFAQ.pregunta,
+      score: mejorScore
+    };
+  }
+
   return { found: false };
 }
- 
+
 // ============================================================================
 // FUNCIÓN: Llamar a Claude API
 // ============================================================================
@@ -56,7 +76,7 @@ async function callClaudeAPI(userMessage) {
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1024,
         system: `Eres un asistente especializado en derechos laborales, trámites y beneficios de funcionarios JUNJI (Junta Nacional de Jardines Infantiles) en Chile. 
- 
+
 Responde únicamente sobre:
 - Derechos laborales (horarios, feriados, descansos)
 - Trámites JUNJI (cambios de jardín, certificados)
@@ -64,9 +84,9 @@ Responde únicamente sobre:
 - Procesos disciplinarios y sumarios administrativos
 - Licencias, permisos y post-natal
 - Afiliación y participación en el sindicato
- 
+
 Si la pregunta está fuera de tu ámbito, responde: "Esta pregunta está fuera de mi área de especialidad. Contacta a tu dirección regional para asesoría específica."
- 
+
 Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 párrafos).`,
         messages: [
           {
@@ -84,14 +104,14 @@ Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 
         timeout: 10000
       }
     );
- 
+
     if (response.data.content && response.data.content[0]) {
       return {
         success: true,
         respuesta: response.data.content[0].text
       };
     }
- 
+
     return {
       success: false,
       error: 'Sin contenido en respuesta'
@@ -104,7 +124,7 @@ Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 
     };
   }
 }
- 
+
 // ============================================================================
 // FUNCIÓN: Escapar caracteres especiales para TwiML (XML válido)
 // ============================================================================
@@ -116,19 +136,19 @@ function escapeXml(text) {
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 }
- 
+
 // ============================================================================
 // WEBHOOK: Recibir mensajes de Twilio
 // ============================================================================
 app.post('/webhook/messages', async (req, res) => {
   const phoneNumber = req.body.From;
   const userMessage = req.body.Body;
- 
+
   console.log(`\n📩 Mensaje de ${phoneNumber}: "${userMessage}"`);
- 
+
   // Buscar en FAQ primero
   const faqResult = searchFAQ(userMessage);
- 
+
   let responseBody;
   if (faqResult.found) {
     responseBody = `✓ *Respuesta desde FAQ:*\n\n${faqResult.respuesta}`;
@@ -137,7 +157,7 @@ app.post('/webhook/messages', async (req, res) => {
     // Si no encuentra en FAQ, llamar a Claude
     console.log('🤖 No hay match en FAQ, llamando Claude API...');
     const claudeResult = await callClaudeAPI(userMessage);
- 
+
     if (claudeResult.success) {
       responseBody = `🤖 *Respuesta generada por IA:*\n\n${claudeResult.respuesta}`;
       console.log('✓ Respuesta de Claude obtenida');
@@ -146,24 +166,24 @@ app.post('/webhook/messages', async (req, res) => {
       console.log('✗ Error de Claude');
     }
   }
- 
+
   // Responder con TwiML — Twilio envía el mensaje automáticamente
   const twiml = `<?xml version="1.0" encoding="UTF-8"?>
 <Response>
   <Message>${escapeXml(responseBody)}</Message>
 </Response>`;
- 
+
   res.set('Content-Type', 'text/xml');
   res.status(200).send(twiml);
 });
- 
+
 // ============================================================================
 // HEALTH CHECK
 // ============================================================================
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', faqCount: Object.values(faqData).flat().length });
 });
- 
+
 // ============================================================================
 // INICIAR SERVIDOR
 // ============================================================================
