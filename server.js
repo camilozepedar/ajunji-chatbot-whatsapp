@@ -20,6 +20,27 @@ try {
 }
 
 // ============================================================================
+// MENSAJE DE BIENVENIDA
+// ============================================================================
+const MENSAJE_BIENVENIDA = `👋 ¡Hola! Soy el asistente virtual de *AJUNJI*.
+
+Puedo ayudarte con dudas sobre:
+
+📋 *Derechos laborales* — horarios, feriados, descansos
+🏢 *Trámites JUNJI* — cambios de jardín, certificados
+🤝 *Beneficios AJUNJI* — afiliación, asesoría legal
+⚖️ *Sumarios* — procesos disciplinarios y tus derechos
+🩺 *Licencias y permisos* — médicas, post-natal
+📢 *Sindicato* — afiliación y participación
+
+Solo escríbeme tu pregunta. Por ejemplo:
+• ¿Cuántos días de feriado tengo?
+• ¿Cómo me afilio a AJUNJI?
+• ¿Cuánto dura un sumario?
+
+¿En qué puedo ayudarte hoy?`;
+
+// ============================================================================
 // FUNCIÓN: Buscar respuesta en FAQ
 // ============================================================================
 function normalizar(texto) {
@@ -63,6 +84,20 @@ function searchFAQ(userMessage) {
   }
 
   return { found: false };
+}
+
+// ============================================================================
+// FUNCIÓN: Detectar saludos / comandos de menú
+// ============================================================================
+function esSaludo(mensaje) {
+  const saludos = [
+    'hola', 'holaa', 'buenas', 'buenos dias', 'buenas tardes', 'buenas noches',
+    'menu', 'ayuda', 'help', 'start', 'inicio', 'info', 'informacion',
+    'opciones', 'hi', 'hello', 'que puedes hacer', 'que haces', 'quien eres'
+  ];
+  // Normalizar y quitar signos de puntuación, dejando solo letras/números/espacios
+  const limpio = normalizar(mensaje).replace(/[^a-z0-9\s]/g, '').trim();
+  return saludos.includes(limpio);
 }
 
 // ============================================================================
@@ -146,24 +181,31 @@ app.post('/webhook/messages', async (req, res) => {
 
   console.log(`\n📩 Mensaje de ${phoneNumber}: "${userMessage}"`);
 
-  // Buscar en FAQ primero
-  const faqResult = searchFAQ(userMessage);
-
   let responseBody;
-  if (faqResult.found) {
-    responseBody = `✓ *Respuesta desde FAQ:*\n\n${faqResult.respuesta}`;
-    console.log(`📚 Match encontrado en FAQ (${faqResult.id})`);
-  } else {
-    // Si no encuentra en FAQ, llamar a Claude
-    console.log('🤖 No hay match en FAQ, llamando Claude API...');
-    const claudeResult = await callClaudeAPI(userMessage);
 
-    if (claudeResult.success) {
-      responseBody = `🤖 *Respuesta generada por IA:*\n\n${claudeResult.respuesta}`;
-      console.log('✓ Respuesta de Claude obtenida');
+  // 1. ¿Es un saludo o comando de menú? -> mensaje de bienvenida
+  if (esSaludo(userMessage)) {
+    responseBody = MENSAJE_BIENVENIDA;
+    console.log('👋 Saludo detectado, enviando bienvenida');
+  } else {
+    // 2. Buscar en FAQ
+    const faqResult = searchFAQ(userMessage);
+
+    if (faqResult.found) {
+      responseBody = `✓ *Respuesta desde FAQ:*\n\n${faqResult.respuesta}`;
+      console.log(`📚 Match encontrado en FAQ (${faqResult.id})`);
     } else {
-      responseBody = `Lo siento, no pude procesar tu pregunta. Error: ${claudeResult.error}. Por favor contacta a tu dirección regional.`;
-      console.log('✗ Error de Claude');
+      // 3. Si no encuentra en FAQ, llamar a Claude
+      console.log('🤖 No hay match en FAQ, llamando Claude API...');
+      const claudeResult = await callClaudeAPI(userMessage);
+
+      if (claudeResult.success) {
+        responseBody = `🤖 *Respuesta generada por IA:*\n\n${claudeResult.respuesta}`;
+        console.log('✓ Respuesta de Claude obtenida');
+      } else {
+        responseBody = `Lo siento, no pude procesar tu pregunta. Error: ${claudeResult.error}. Por favor contacta a tu dirección regional.`;
+        console.log('✗ Error de Claude');
+      }
     }
   }
 
