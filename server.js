@@ -3,11 +3,11 @@ const express = require('express');
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-
+ 
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
+ 
 // Cargar FAQ en memoria
 const faqPath = path.join(__dirname, 'faq.json');
 let faqData = {};
@@ -18,20 +18,20 @@ try {
 } catch (err) {
   console.error('Error al cargar FAQ:', err);
 }
-
+ 
 // ============================================================================
 // FUNCIÓN: Buscar respuesta en FAQ
 // ============================================================================
 function searchFAQ(userMessage) {
   const messageLower = userMessage.toLowerCase();
   const allFAQs = Object.values(faqData).flat();
-
+ 
   // Buscar match por palabras clave (simple pero efectivo)
   for (const faq of allFAQs) {
     const keywordsMatch = faq.palabras_clave.some(keyword =>
       messageLower.includes(keyword.toLowerCase())
     );
-
+ 
     if (keywordsMatch) {
       return {
         found: true,
@@ -41,10 +41,10 @@ function searchFAQ(userMessage) {
       };
     }
   }
-
+ 
   return { found: false };
 }
-
+ 
 // ============================================================================
 // FUNCIÓN: Llamar a Claude API
 // ============================================================================
@@ -53,10 +53,10 @@ async function callClaudeAPI(userMessage) {
     const response = await axios.post(
       'https://api.anthropic.com/v1/messages',
       {
-        model: 'claude-opus-4-20250805',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 1024,
         system: `Eres un asistente especializado en derechos laborales, trámites y beneficios de funcionarios JUNJI (Junta Nacional de Jardines Infantiles) en Chile. 
-
+ 
 Responde únicamente sobre:
 - Derechos laborales (horarios, feriados, descansos)
 - Trámites JUNJI (cambios de jardín, certificados)
@@ -64,9 +64,9 @@ Responde únicamente sobre:
 - Procesos disciplinarios y sumarios administrativos
 - Licencias, permisos y post-natal
 - Afiliación y participación en el sindicato
-
+ 
 Si la pregunta está fuera de tu ámbito, responde: "Esta pregunta está fuera de mi área de especialidad. Contacta a tu dirección regional para asesoría específica."
-
+ 
 Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 párrafos).`,
         messages: [
           {
@@ -84,14 +84,14 @@ Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 
         timeout: 10000
       }
     );
-
+ 
     if (response.data.content && response.data.content[0]) {
       return {
         success: true,
         respuesta: response.data.content[0].text
       };
     }
-
+ 
     return {
       success: false,
       error: 'Sin contenido en respuesta'
@@ -104,7 +104,7 @@ Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 
     };
   }
 }
-
+ 
 // ============================================================================
 // FUNCIÓN: Enviar respuesta a Twilio
 // ============================================================================
@@ -114,7 +114,7 @@ async function sendWhatsAppMessage(phoneNumber, messageBody) {
     params.append('From', `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`);
     params.append('To', phoneNumber);
     params.append('Body', messageBody);
-
+ 
     await axios.post(
       `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages`,
       params,
@@ -125,7 +125,7 @@ async function sendWhatsAppMessage(phoneNumber, messageBody) {
         }
       }
     );
-
+ 
     console.log(`✓ Mensaje enviado a ${phoneNumber}`);
     return true;
   } catch (err) {
@@ -133,19 +133,19 @@ async function sendWhatsAppMessage(phoneNumber, messageBody) {
     return false;
   }
 }
-
+ 
 // ============================================================================
 // WEBHOOK: Recibir mensajes de Twilio
 // ============================================================================
 app.post('/webhook/messages', async (req, res) => {
   const phoneNumber = req.body.From;
   const userMessage = req.body.Body;
-
+ 
   console.log(`\n📩 Mensaje de ${phoneNumber}: "${userMessage}"`);
-
+ 
   // Buscar en FAQ primero
   const faqResult = searchFAQ(userMessage);
-
+ 
   let responseBody;
   if (faqResult.found) {
     responseBody = `✓ *Respuesta desde FAQ:*\n\n${faqResult.respuesta}`;
@@ -154,7 +154,7 @@ app.post('/webhook/messages', async (req, res) => {
     // Si no encuentra en FAQ, llamar a Claude
     console.log('🤖 No hay match en FAQ, llamando Claude API...');
     const claudeResult = await callClaudeAPI(userMessage);
-
+ 
     if (claudeResult.success) {
       responseBody = `🤖 *Respuesta generada por IA:*\n\n${claudeResult.respuesta}`;
       console.log('✓ Respuesta de Claude obtenida');
@@ -163,21 +163,21 @@ app.post('/webhook/messages', async (req, res) => {
       console.log('✗ Error de Claude');
     }
   }
-
+ 
   // Enviar respuesta
   await sendWhatsAppMessage(phoneNumber, responseBody);
-
+ 
   // Responder a Twilio con 200 OK
   res.status(200).send('OK');
 });
-
+ 
 // ============================================================================
 // HEALTH CHECK
 // ============================================================================
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', faqCount: Object.values(faqData).flat().length });
 });
-
+ 
 // ============================================================================
 // INICIAR SERVIDOR
 // ============================================================================
