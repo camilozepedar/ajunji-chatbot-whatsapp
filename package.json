@@ -1,0 +1,18 @@
+{
+  "name": "ajunji-chatbot-whatsapp",
+  "version": "1.0.0",
+  "description": "Chatbot híbrido para WhatsApp — FAQ + Claude API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["whatsapp", "chatbot", "ajunji", "twilio"],
+  "author": "Camilo AJUNJI",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2"
+  }
+}
