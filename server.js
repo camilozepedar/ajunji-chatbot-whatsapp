@@ -106,32 +106,15 @@ Responde en español, con tono profesional pero cercano. Sé conciso (máximo 3 
 }
  
 // ============================================================================
-// FUNCIÓN: Enviar respuesta a Twilio
+// FUNCIÓN: Escapar caracteres especiales para TwiML (XML válido)
 // ============================================================================
-async function sendWhatsAppMessage(phoneNumber, messageBody) {
-  try {
-    const params = new URLSearchParams();
-    params.append('From', `whatsapp:${process.env.TWILIO_PHONE_NUMBER}`);
-    params.append('To', phoneNumber);
-    params.append('Body', messageBody);
- 
-    await axios.post(
-      `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages`,
-      params,
-      {
-        auth: {
-          username: process.env.TWILIO_ACCOUNT_SID,
-          password: process.env.TWILIO_AUTH_TOKEN
-        }
-      }
-    );
- 
-    console.log(`✓ Mensaje enviado a ${phoneNumber}`);
-    return true;
-  } catch (err) {
-    console.error('Error al enviar mensaje:', err.message);
-    return false;
-  }
+function escapeXml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;');
 }
  
 // ============================================================================
@@ -164,11 +147,14 @@ app.post('/webhook/messages', async (req, res) => {
     }
   }
  
-  // Enviar respuesta
-  await sendWhatsAppMessage(phoneNumber, responseBody);
+  // Responder con TwiML — Twilio envía el mensaje automáticamente
+  const twiml = `<?xml version="1.0" encoding="UTF-8"?>
+<Response>
+  <Message>${escapeXml(responseBody)}</Message>
+</Response>`;
  
-  // Responder a Twilio con 200 OK
-  res.status(200).send('OK');
+  res.set('Content-Type', 'text/xml');
+  res.status(200).send(twiml);
 });
  
 // ============================================================================
